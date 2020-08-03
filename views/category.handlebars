@@ -1,9 +1,9 @@
 
 <nav>
     <div class="nav-wrapper green">
-      <a href="#" class="brand-logo"><img src="../../images/BB_logo_wht.png" id="nav-logo" alt="" width="200" height="auto"></a>
+      <a href="/user/home" class="brand-logo"><img src="../../images/BB_logo_wht.png" id="nav-logo" alt="" width="200" height="auto"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/user/home">Account</a></li>
+        <li><a href="/user/calendar">History</a></li>
         <li>|</li>
         <li><a href="#">About</a></li>
         <li>|</li>
@@ -41,7 +41,7 @@
                                 <td>{{this.budget}}</td>
                                 <td>{{this.budgetUsed}}</td>
                                 <td><button id="{{this.id}}"class="waves-effect waves-light btn white modal-trigger blue-text text-darken-2 cat-modal-trig" data-value = "{{this.id}}" data-target="modal{{this.id}}">update category</button></td>
-                                <td><button id="delete{{this.id}}"class="waves-effect waves-light btn white modal-trigger blue-text text-darken-2 cat-modal-trig deleter" data-value = "{{this.id}}">delete category</button></td>
+                                <td><button class="waves-effect waves-light btn white modal-trigger blue-text text-darken-2 cat-modal-trig deleter delete-cate" data-value = "{{this.id}}">delete category</button></td>
                             </tr>
                         {{/each}}
                         </tbody>

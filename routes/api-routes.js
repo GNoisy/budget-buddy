@@ -56,7 +56,7 @@ router.get("/user/home", function (req, res) {
           data.weeklyBudget = accountData[0].weeklyBudget;
           data.weeklyBudgetUsed = accountData[0].weeklyBudgetUsed;
           data.budgetRemaining = parseFloat(accountData[0].weeklyBudget) - parseFloat(accountData[0].weeklyBudgetUsed);
-          res.render("index",data)
+          res.render("index", data)
         })
       })
     })
@@ -68,7 +68,8 @@ router.get("/user/sign-out", function (req, res) {
 })
 
 router.get("/calendar", function (req, res) {
-  res.render("calendar");
+
+  res.render("calendar", userSignedIn);
 })
 
 // get all information on a user
@@ -100,11 +101,32 @@ router.get("/api/user/:id/orders", (req, res) => {
         id: id
       },
       include: [db.Orders]
+
     })
     .then((data) => {
       res.json(data)
     })
 })
+
+// get all orders from a user in ascending order. 
+router.get("/api/user/:id/orders/asc", (req, res) => {
+  // get ID from request
+  const id = req.params.id;
+  // find user with ID
+  db.Orders.findAll({
+      order: [
+        ["orderDate", "ASC"]
+      ],
+      where: {
+        UserId: id
+      }
+
+    })
+    .then((data) => {
+      res.json(data)
+    })
+})
+
 
 // Get orders/items from a specific user for a specific category
 router.get("/api/categories/:categoryID", (req, res) => {
@@ -123,7 +145,7 @@ router.get("/api/categories/:categoryID", (req, res) => {
 })
 
 
-router.get("/view/categories/:id",function(req,res){
+router.get("/view/categories/:id", function (req, res) {
   var userId = req.params.id;
   var data = {};
   db.Categories.findAll({
@@ -145,33 +167,33 @@ router.get("/view/categories/:id",function(req,res){
       }
       data.categories = cats
       console.log(data);
-      res.render("category",data);
+      res.render("category", data);
     })
 })
 
-router.get("/view/orders/:id",function(req,res){
+router.get("/view/orders/:id", function (req, res) {
   var userId = req.params.id;
   var data = {};
   db.Categories.findAll({
-    where: {
-      UserId: userId,
-    }
-  })
-  .then((categories) => {
-    console.log(categories)
-    var cats = [];
-    for (var i = 0; i < categories.length; i++) {
-      var cat = {
-        name: categories[i].dataValues.name,
-        budget: categories[i].dataValues.budget,
-        budgetUsed: categories[i].dataValues.budgetUsed,
-        id: categories[i].dataValues.id
+      where: {
+        UserId: userId,
       }
-      cats.push(cat);
-    }
-    data.categories = cats
-    res.render("orders",data);
-  })
+    })
+    .then((categories) => {
+      console.log(categories)
+      var cats = [];
+      for (var i = 0; i < categories.length; i++) {
+        var cat = {
+          name: categories[i].dataValues.name,
+          budget: categories[i].dataValues.budget,
+          budgetUsed: categories[i].dataValues.budgetUsed,
+          id: categories[i].dataValues.id
+        }
+        cats.push(cat);
+      }
+      data.categories = cats
+      res.render("orders", data);
+    })
 
 })
 
@@ -335,9 +357,18 @@ function addAmountToField(field, id, amount) {
   console.log(typeof amount);
 
   switch (field) {
-    case "category":  
-      db.Categories.findOne({ where: {id: id}}).then( data => {
-        let { id, name, budget, budgetUsed } = data
+    case "category":
+      db.Categories.findOne({
+        where: {
+          id: id
+        }
+      }).then(data => {
+        let {
+          id,
+          name,
+          budget,
+          budgetUsed
+        } = data
         budgetUsed = parseFloat(budgetUsed) + amount
 
         let updatedCategory = {
@@ -346,12 +377,24 @@ function addAmountToField(field, id, amount) {
           budgetUsed
         }
 
-        db.Categories.update(updatedCategory, { where: {id: id}}).then( () => console.log("Category updated"))
+        db.Categories.update(updatedCategory, {
+          where: {
+            id: id
+          }
+        }).then(() => console.log("Category updated"))
       })
       break;
     case "account":
-      db.Account.findOne({ where: {id: id}}).then( data => {
-        let { id, weeklyBudget, weeklyBudgetUsed } = data;
+      db.Account.findOne({
+        where: {
+          id: id
+        }
+      }).then(data => {
+        let {
+          id,
+          weeklyBudget,
+          weeklyBudgetUsed
+        } = data;
         weeklyBudgetUsed = parseFloat(weeklyBudgetUsed) + amount;
 
         let updatedAccount = {
@@ -359,7 +402,11 @@ function addAmountToField(field, id, amount) {
           weeklyBudgetUsed
         }
 
-        db.Account.update(updatedAccount, {where: {id: id}}).then( () => {
+        db.Account.update(updatedAccount, {
+          where: {
+            id: id
+          }
+        }).then(() => {
           console.log("Account updated");
         })
       })
@@ -436,11 +483,11 @@ router.put("/api/categories/:categoryID", (req, res) => {
 
 
 // Update Account information (weeklyBudgetUsed)
-router.put("/api/user/:id/account/:accoutId", (req, res) => {
+router.put("/api/user/:id/account/:accountId", (req, res) => {
   const UserId = req.params.id;
   const accountId = parseInt(req.params.accountId);
   let updatedAccount = req.body;
-
+  console.log(updatedAccount);
   db.Account.update(updatedAccount, {
     where: {
       UserId: UserId,
@@ -448,6 +495,7 @@ router.put("/api/user/:id/account/:accoutId", (req, res) => {
     }
   }).then(data => res.send(data))
 })
+
 // Update Order Information
 router.put("/api/order/:orderId", (req, res) => {
   const orderId = parseInt(req.params.accountId);
@@ -461,5 +509,57 @@ router.put("/api/order/:orderId", (req, res) => {
 })
 
 // ~~~~~DELETE~~~~~~
+// delete a Category
+router.delete("/api/category/:categoryid/delete", (req, res) => {
+  const categoryId = parseInt(req.params.categoryid);
 
+  db.Categories.destroy({
+    where: {
+      id: categoryId
+    }
+  }).then(() => res.send(200))
+})
+
+//delete a order
+router.delete("/api/order/:orderid/delete", (req, res) => {
+  const orderId = parseInt(req.params.orderid);
+  db.Orders.findOne({
+    where: {
+      id: orderId
+    }
+  }).then(function (data) {
+    var accountId = data.AccountId;
+    var categoryId = data.CategoryId;
+    var price = data.price * -1;
+    addAmountToField("account", accountId, price);
+    addAmountToField("category", categoryId, price);
+    db.Orders.destroy({
+      where: {
+        id: orderId
+      }
+    }).then(() => res.send(200))
+  })
+})
+
+// delete a account
+router.delete("/api/account/:accountid/delete", (req, res) => {
+  const accountId = parseInt(req.params.accountid);
+
+  db.Account.destroy({
+    where: {
+      id: accountId
+    }
+  }).then(() => res.send(200))
+})
+
+// delete a user
+router.delete("/api/user/:userid/delete", (req, res) => {
+  const userId = parseInt(req.params.userid);
+
+  db.Users.destroy({
+    where: {
+      id: userId
+    }
+  }).then(() => res.send(200))
+})
 module.exports = router;

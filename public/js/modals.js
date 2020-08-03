@@ -5,7 +5,7 @@ $(document).ready(function () {
   $(".datepicker").datepicker({
     format: "yyyy/mm/dd"
   });
-  
+
   $("#cat_submit").on("click", function () {
     var id = $(this).data("value");
     console.log(id);
@@ -20,6 +20,7 @@ $(document).ready(function () {
       UserId: id
     }
     $.post("/api/category/new", newCategory).then(function (data) {
+      location.reload();
       console.log("category Submitted");
       console.log(data);
     });
@@ -42,7 +43,7 @@ $(document).ready(function () {
     console.log(parseFloat(price));
     const formatDate = new Date(year, month, day);
     const CategoryId = parseInt($("#item-category").val());
-    
+
     const newItem = {
       name: itemName,
       price: price,
@@ -52,13 +53,30 @@ $(document).ready(function () {
       UserId: id
     }
     $.post("/api/orders/new", newItem).then(function (data) {
+      location.reload();
       console.log("order Submitted");
       console.log(data);
     });
   })
 
 
-  
 
-  
+
+
+  $("#account-submit").on("click", function () {
+    const amount = $("#accountamount").val();
+    const accountid = $("#remain-budget").data("id");
+    const UserId = $("#account-submit").data("value")
+
+    $.ajax({
+      method: "PUT",
+      url: `/api/user/${UserId}/account/${accountid}`,
+      data: {
+        weeklyBudget: amount
+      }
+    }).then(() => {
+      location.reload()
+    })
+  })
+
 });

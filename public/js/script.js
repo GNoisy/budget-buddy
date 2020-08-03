@@ -83,9 +83,6 @@ const newOrder = {
 // })
 
 // $.ajax({
-//     method: "PUT",
-//     url: "/api/user/100/categories/1",
-//     data: {
-//         budget: 10000.00
-//     }
+//     method: "DELETE",
+//     url: "/api/category/1/delete"
 // }).then(data => console.log("UPDATED: ", data))

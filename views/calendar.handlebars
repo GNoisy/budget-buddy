@@ -1,39 +1,21 @@
 <nav>
     <div class="nav-wrapper green">
-      <a href="/" class="brand-logo"><img src="../images/BB_logo_wht.png" id="nav-logo" alt="" width="200" height="auto"></a>
+
+      <a href="/user/home" class="brand-logo"><img src="../images/BB_logo_wht.png" id="nav-logo" alt="" width="200" height="auto"></a>
+
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-
-        {{!-- <li><a href="#">Account</a></li>
-        <li>|</li> --}}
-        <li><a href="/landing">About</a></li>
-        
-        {{!-- <li><a href="#">Settings</a></li> --}}
-
+        <li><a href="/calendar">History</a></li>
+        <li>|</li>
+        <li><a href="#">About</a></li>
+        <li>|</li>
+        <li><a href="/user/sign-out">Log Out</a></li>
       </ul>
     </div>
 </nav>
+<div id="my-roadmap" data-id="{{this.id}}"></div>
 
 
-<main class="container">
-    <div class="row light-green lighten-4" id="card-cal">
-        <div class="col s12" id="calendar"></div>
-    </div>
-</main>
-{{!-- <div id="calendar"></div> --}}
-
-
-
-
-
-
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.css" />
-<!-- If you use the default popups, use this. -->
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.css" />
-<link rel="stylesheet" type="text/css" href="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.css" />
-<script src="https://uicdn.toast.com/tui.code-snippet/v1.5.2/tui-code-snippet.min.js"></script>
-<script src="https://uicdn.toast.com/tui.time-picker/latest/tui-time-picker.min.js"></script>
-<script src="https://uicdn.toast.com/tui.date-picker/latest/tui-date-picker.min.js"></script>
-<script src="https://uicdn.toast.com/tui-calendar/latest/tui-calendar.js"></script>
-<script src="https://cdnjs.cloudflare.com/ajax/libs/tui-calendar/1.12.13/tui-calendar.min.js"></script>
-<script src="./js/calendar.js"></script>
+   <!-- Include jQuery Roadmap Plugin -->
+<script src="./js/jquery.roadmap.js" type="text/javascript"></script>
+<script defer src="./js/calendar.js"></script>
 

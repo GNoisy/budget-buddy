@@ -1,9 +1,9 @@
 
 <nav>
     <div class="nav-wrapper green">
-      <a href="#" class="brand-logo"><img src="../images/BB_logo_wht.png" id="nav-logo" alt="" width="200" height="auto"></a>
+      <a href="/user/home" class="brand-logo"><img src="../images/BB_logo_wht.png" id="nav-logo" alt="" width="200" height="auto"></a>
       <ul id="nav-mobile" class="right hide-on-med-and-down">
-        <li><a href="/user/home">Account</a></li>
+        <li><a href="/calendar">History</a></li>
         <li>|</li>
         <li><a href="/">About</a></li>
         <li>|</li>
@@ -34,19 +34,18 @@
                     <h4 id="remain-budget" class="center-align" data-id="{{this.accountId}}">Remaining Budget: ${{ this.budgetRemaining }}</h4>
                     <p id="start-bud" class="center-align">Starting budget: ${{ this.weeklyBudget }}</p>
                     <p id="spent-bud" class="center-align">Amount spent: ${{ this.weeklyBudgetUsed }}</p>
-                    
                 </div>
                 <div class="card-action">
                     <p class="center-align">
-                        <button id="up-budget-btn" class="btn waves-effect waves-light blue-text text-darken-2 white" type="submit" name="action">
-                        Update
-                        </button>
+                    <button id="add-cat-btn" class="waves-effect waves-light btn white modal-trigger blue-text text-darken-2" data-target="modal3">Update Account</button>
                     </p>
                 </div>
             </div>
         </div>
         <div class="col m3"></div>
     </div>
+
+
 
     <div class="row light-green lighten-4" id="card-home">
         <div class="col s12 m6">
@@ -67,6 +66,9 @@
                 </div>
             </div>
         </div>
+
+
+
         <div class="col s12 m6">
             <div class="card green">
                 <div class="card-content white-text">
@@ -159,6 +161,30 @@
         <a class=" modal-action modal-close waves-effect waves-green btn-flat" data-value = "{{this.userId}}" id = "cat_submit">Submit</a>
     </div>
 </div>
+
+
+
+<!-- Account modal -->
+<div id="modal3" class="modal">
+    <div class="modal-content">
+        <h4>Update Account</h4>
+
+        <div class="row">
+            <form class="col s12">
+                <div class="row modal-form-row">
+                    <div class="input-field col s12">
+                        <input id="accountamount" type="text" class="validate" placeholder="100.00">
+                        <label for="accountamount">Update Account Budget</label>
+                    </div>
+                </div>
+            </form>
+        </div>
+    </div>
+    <div class="modal-footer">
+        <a class=" modal-action modal-close waves-effect waves-green btn-flat" data-value = "{{this.userId}}" id = "account-submit">Submit</a>
+    </div>
+</div>
+
 
 
 

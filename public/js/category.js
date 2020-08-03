@@ -23,4 +23,15 @@ $(document).ready(function () {
             location.reload();
         })
     })
+
+    $(".delete-cate").on("click", function() {
+        var catId = $(this).data("value");
+        console.log(catId);
+
+        $.ajax({
+            method: "DELETE",
+            url: `/api/category/${catId}/delete`
+        }).then(() => location.reload())
+    })
+
 })
