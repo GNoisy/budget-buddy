@@ -28,34 +28,25 @@ $(document).ready(function () {
 
   $("#item_submit").on("click", function () {
     const id = $(this).data("value");
-    console.log(id);
     const date = $('.datepicker').val();
-    console.log(date);
     const year = parseInt(date.substr(0, 4));
-    console.log(year);
     const month = parseInt(date.substr(5, 2)) - 1;
-    console.log(month);
     const day = parseInt(date.substr(8, 2));
-    console.log(day);
     const itemName = $("#item-name").val();
-    console.log(itemName);
     const price = $("#item-price").val();
-    console.log(parseFloat(price));
     const formatDate = new Date(year, month, day);
     const CategoryId = parseInt($("#item-category").val());
-
+    const accountid = $("#remain-budget").data("id");
     const newItem = {
       name: itemName,
       price: price,
       CategoriesId: CategoryId,
-      AccountId: $("#remain-budget").data("id"),
+      AccountId: accountid,
       orderDate: formatDate,
       UserId: id
     }
     $.post("/api/orders/new", newItem).then(function (data) {
       location.reload();
-      console.log("order Submitted");
-      console.log(data);
     });
   })
 

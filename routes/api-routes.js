@@ -349,14 +349,11 @@ router.post("/api/orders/new", (req, res) => {
     });
 })
 
-function addAmountToField(field, id, amount) {
+function addAmountToField(table, id, amount) {
   if (typeof amount != "number") amount = parseFloat(amount);
   if (typeof id != "number") id = parseFloat(id);
 
-  console.log("amount: ", amount);
-  console.log(typeof amount);
-
-  switch (field) {
+  switch (table) {
     case "category":
       db.Categories.findOne({
         where: {
@@ -370,13 +367,11 @@ function addAmountToField(field, id, amount) {
           budgetUsed
         } = data
         budgetUsed = parseFloat(budgetUsed) + amount
-
         let updatedCategory = {
           name,
           budget,
           budgetUsed
         }
-
         db.Categories.update(updatedCategory, {
           where: {
             id: id
@@ -433,7 +428,6 @@ router.post("/api/category/new", (req, res) => {
     UserId
 
   }).then((data) => {
-    console.log(data);
     res.json(data);
   })
 })
@@ -455,7 +449,6 @@ router.post("/api/account/new", (req, res) => {
     endingDate,
     UserId
   }).then((data) => {
-    console.log(data);
     res.json(data);
   })
 
@@ -520,7 +513,7 @@ router.delete("/api/category/:categoryid/delete", (req, res) => {
   }).then(() => res.send(200))
 })
 
-//delete a order
+// delete a order and update budget for category and account
 router.delete("/api/order/:orderid/delete", (req, res) => {
   const orderId = parseInt(req.params.orderid);
   db.Orders.findOne({

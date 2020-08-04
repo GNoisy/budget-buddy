@@ -15,7 +15,7 @@ $(document).ready(function () {
         });
 
         $('#my-roadmap').roadmap(events, {
-            eventsPerSlide: 6,
+            eventsPerSlide: 8,
             slide: 1,
             prevArrow: '<i class="material-icons">keyboard_arrow_left</i>',
             nextArrow: '<i class="material-icons">keyboard_arrow_right</i>',
